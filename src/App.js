@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import AudioAnalyser from './AudioAnalyser';
+import ControlBar from './ControlBar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = (props) => {
+  const [audio, setAudio] = React.useState(null);
+
+  const getAudio = async () => {
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false
+    });
+    setAudio(audio);
+  }
+
+  const stopAudio = () => {
+    audio.getTracks().forEach(track => track.stop());
+    setAudio(null);
+  }
+
+
+  const toggleAudio = () => {
+      if (audio) {
+        stopAudio();
+      } else {
+        getAudio();
+      }
+  }
+
+
+    return (
+      <div className="App">
+        <ControlBar controlAudio={{audio, toggleAudio}}/>
+        {audio ? <AudioAnalyser stream={audio} /> : ''}
+      </div>
+    );
 }
 
 export default App;
