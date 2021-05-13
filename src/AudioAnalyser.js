@@ -2,32 +2,37 @@ import React, { useEffect, useRef, createRef } from 'react';
 import AudioVisualiser from './AudioVisualiser';
 
 const AudioAnalyser = ({ stream }) => {
-    const [audioData, setAudioData] = React.useState(new Uint8Array(0));
-    // tick = tick.bind(this);
-    
-    var audioContext = useRef(new AudioContext());
-    var analyser = useRef();
-    // var dataArray = useRef();
-    var source = useRef();
-    var rafId = useRef();
+  const [oAudioData, setOAudioData] = React.useState(new Uint8Array(0));
+  // tick = tick.bind(this);
+  const [bAudioData, setBAudioData] = React.useState(new Uint8Array(0));
+
+  var audioContext = useRef(new AudioContext());
+  var analyser = useRef();
+  // var dataArray = useRef();
+  var source = useRef();
+  var rafId = useRef();
 
 
-  useEffect (() => {
+  useEffect(() => {
     if (stream) {
-      // console.log('init stream')
+      console.log('init stream')
       analyser.current = audioContext.current.createAnalyser();
-      analyser.current.fftSize = 1024
-      // .filter = audioContext.createBiquadFilter()
+      analyser.current.fftSize = 4096
+      analyser.current.smoothingTimeConstant = 0
+      // filter = audioContext.createBiquadFilter()
       // filter.type = "lowpass"
       // filter.frequency.value = 10000;
       // filter.gain.value = 1;
       // dataArray.current = new Uint8Array(analyser.current.frequencyBinCount);
-      setAudioData(new Uint8Array(analyser.current.fftSize))
+      setOAudioData(new Uint8Array(analyser.current.fftSize))
+      setBAudioData(new Uint8Array(analyser.current.fftSize))
       source.current = audioContext.current.createMediaStreamSource(stream);
       source.current.connect(analyser.current);
       // filter.connect(audioContext.destination)
-      
+
       rafId.current = requestAnimationFrame(tick);
+    } else {
+      console.log('no stream')
     }
     return () => {
       console.log('cancel animation')
@@ -39,16 +44,21 @@ const AudioAnalyser = ({ stream }) => {
 
   const tick = () => {
     // console.log('tick');
-    var byteData = new Uint8Array(analyser.current.fftSize);
-    analyser.current.getByteTimeDomainData(byteData);
+    var oAudioData = new Uint8Array(analyser.current.fftSize);
+    var bAudioData = new Uint8Array(analyser.current.fftSize);
+    analyser.current.getByteTimeDomainData(oAudioData);
+    analyser.current.getByteFrequencyData(bAudioData)
     // console.log(dataArray.current)
-    setAudioData(byteData);
+    setOAudioData(oAudioData);
+    setBAudioData(bAudioData)
     rafId.current = requestAnimationFrame(tick);
-    
+
   }
 
   return (
-     <AudioVisualiser audioData={audioData}/>
+    <div class='Vis'>
+      <AudioVisualiser audioData={{oAudioData, bAudioData}} />
+    </div>
   )
 }
 

@@ -1,21 +1,14 @@
 import React from 'react';
 
 const ControlBar = ({ controlAudio }) => {
-    // const [isPlaying, setIsPlaying] = React.useState(false);
-
-    // useEffect(() => {
-    //     if (isPlaying) {
-
-    //     }
-    // }, [isPlaying])
-
-    return (
-        <div className="controls">
-          <button onClick={controlAudio.toggleAudio}>
-            {controlAudio.audio ? 'Stop' : 'Begin'}
-          </button>
-        </div>
-    );
+  return (
+    <div class="ControlBar">
+      <button onClick={controlAudio.toggleAudio}>
+        {controlAudio.audio ? 'Stop' : 'Begin'}
+      </button>
+      <input type="range" min="0" max="100" class="controls" id="opacity"></input>
+    </div>
+  );
 }
 
 export default ControlBar
