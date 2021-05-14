@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { color } from './Info';
 import chroma from 'chroma-js'
 
@@ -6,14 +6,14 @@ const AudioVisualiser = ({ audioData }) => {
   var createCanvas = React.createRef();
   var capYPositionArray = [];
 
-  useEffect(() => {
-    if (audioData.bAudioData.length > 0) {
+  useLayoutEffect(() => {
+    if (audioData.length > 0) {
       draw();
     }
-  }, [audioData.bAudioData])
+  }, [audioData])
 
   const draw = () => {
-    console.log(color)
+    // console.log(color)
     const canvas = createCanvas.current;
     const height = canvas.height;
     const width = canvas.width;
@@ -26,23 +26,24 @@ const AudioVisualiser = ({ audioData }) => {
       rgb = rgb.concat(color[i])
     }
     rgb = rgb.concat(")")
-    console.log(audioData.oAudioData)
+    // console.log(audioData.oAudioData)
 
-    // context.fillStyle = 'rgba(0, 0, 0, 1)'
-    // context.fillRect(0, 0, width, height)
+    context.fillStyle = 'rgba(0, 0, 0, 1)'
+    context.fillRect(0, 0, width, height)
 
-    spectro(canvas, height, width, context, rgb);
+    oscilloscope(height, width, context, rgb);
+    // spectro(canvas, height, width, context, rgb);
   }
 
   const oscilloscope = (height, width, context, rgb) => {
     let x = 0;
-    const sliceWidth = (width * 1.0) / audioData.oAudioData.length;
+    const sliceWidth = (width * 1.0) / audioData.length;
 
-    context.lineWidth = 3;
+    context.lineWidth = 1;
     context.strokeStyle = rgb;
 
     context.beginPath();
-    for (const item of audioData.oAudioData) {
+    for (const item of audioData) {
       const y = (item / 255.0) * height / 4;
       context.lineTo(x, y + height / 3);
       x += sliceWidth;
@@ -59,8 +60,8 @@ const AudioVisualiser = ({ audioData }) => {
     var capHeight = 1;
     var gap = 0
     var barNum = width / (barWidth + gap)
-    var step = Math.pow(audioData.bAudioData.length, 1 / (barNum));
-    console.log(audioData.bAudioData)
+    var step = Math.pow(audioData.length, 1 / (barNum));
+    console.log(audioData)
 
     context.beginPath();
     for (var i = 0; i < barNum; i++) {
@@ -70,7 +71,7 @@ const AudioVisualiser = ({ audioData }) => {
       // var value = baudioData[i] * height / 255.0
 
       //log
-      var value = audioData.bAudioData[Math.round(Math.pow(step, i))] * height / 255;
+      var value = audioData[Math.round(Math.pow(step, i))] * height / 255;
 
       // caps
       context.fillStyle = 'white';
@@ -125,7 +126,7 @@ const AudioVisualiser = ({ audioData }) => {
     // iterate over the elements from the array
     for (var i = 0; i < barNum / 1; i += 1) {
       // draw each pixel with the specific color
-      var value = audioData.bAudioData[i];
+      var value = audioData[i];
       // var value = baudioData[Math.round(Math.pow(step, i))] * height / 255 / 3;
       context.fillStyle = hot(value / 255.0).hex();
 
@@ -143,7 +144,7 @@ const AudioVisualiser = ({ audioData }) => {
   }
 
   return (
-    <canvas width={window.innerWidth / 2} height={window.innerHeight} ref={createCanvas} />
+    <canvas width={window.innerWidth / 2} height={window.innerHeight /2 } ref={createCanvas} />
   )
 }
 
