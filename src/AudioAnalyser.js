@@ -46,7 +46,8 @@ const AudioAnalyser = ({ stream }) => {
     
     const tick = () => {
       var audioData = new Uint8Array(analyser.current.fftSize);
-      analyser.current.getByteTimeDomainData(audioData);
+      // analyser.current.getByteTimeDomainData(audioData);
+      analyser.current.getByteFrequencyData(audioData);
       setAudioData(audioData)
       // console.log('tick');
       // var oAudioData = new Uint8Array(analyser.current.fftSize);

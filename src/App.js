@@ -9,7 +9,7 @@ import './App.css';
 
 const spotify = new SpotifyWebApi({
   clientId: '6d21bc23eaeb4573a2b668d8239e57ea',
-  clientSecret: 'e5dffd480c28448b85c9633cfc868f9e',
+  // clientSecret: 'e5dffd480c28448b85c9633cfc868f9e',
   redirectUri: 'http://localhost:3000/callback/'
 });
 

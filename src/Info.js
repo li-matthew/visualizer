@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ColorThief from 'colorthief'
 
-var color = [255, 0, 0];
+var color = [128, 0, 0];
 
 const Info = ({ spotify }) => {
     const [data, setData] = React.useState();

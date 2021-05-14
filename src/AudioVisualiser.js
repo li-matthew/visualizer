@@ -28,18 +28,18 @@ const AudioVisualiser = ({ audioData }) => {
     rgb = rgb.concat(")")
     // console.log(audioData.oAudioData)
 
-    context.fillStyle = 'rgba(0, 0, 0, 1)'
-    context.fillRect(0, 0, width, height)
+    // context.fillStyle = 'rgba(0, 0, 0, 1)'
+    // context.fillRect(0, 0, width, height)
 
-    oscilloscope(height, width, context, rgb);
-    // spectro(canvas, height, width, context, rgb);
+    // oscilloscope(height, width, context, rgb);
+    spectro(canvas, height, width, context, rgb);
   }
 
   const oscilloscope = (height, width, context, rgb) => {
     let x = 0;
     const sliceWidth = (width * 1.0) / audioData.length;
 
-    context.lineWidth = 1;
+    context.lineWidth = 2;
     context.strokeStyle = rgb;
 
     context.beginPath();
@@ -144,7 +144,7 @@ const AudioVisualiser = ({ audioData }) => {
   }
 
   return (
-    <canvas width={window.innerWidth / 2} height={window.innerHeight /2 } ref={createCanvas} />
+    <canvas width={window.innerWidth / 2} height={window.innerHeight} ref={createCanvas} />
   )
 }
 
