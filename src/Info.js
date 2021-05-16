@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ColorThief from 'colorthief'
 
-var color = [128, 0, 0];
+var color = [20,255,235];
 
 const Info = ({ spotify }) => {
     const [data, setData] = React.useState();
@@ -61,6 +61,8 @@ const Info = ({ spotify }) => {
         img.src = art
 
         if (img.complete) {
+            // vibrant.from(art).getPalette()
+            // .then((palette) => console.log(palette))
             color = colorThief.getColor(img)
             // setColor(color)
         }

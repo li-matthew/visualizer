@@ -1,14 +1,16 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { color } from './Info';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
+// import { color } from './Info';
 import chroma from 'chroma-js'
+import { thickness, fade, color } from './ControlBar'
 
 const AudioVisualiser = ({ audioData }) => {
   var createCanvas = React.createRef();
-  var capYPositionArray = [];
+  var capYPositionArray = useRef([]);
 
   useLayoutEffect(() => {
     if (audioData.length > 0) {
       draw();
+      console.log(thickness)
     }
   }, [audioData])
 
@@ -28,22 +30,24 @@ const AudioVisualiser = ({ audioData }) => {
     rgb = rgb.concat(")")
     // console.log(audioData.oAudioData)
 
-    // context.fillStyle = 'rgba(0, 0, 0, 1)'
-    // context.fillRect(0, 0, width, height)
+    context.fillStyle = 'rgba(0, 0, 0, ' + (1 - fade) + ')'
+    context.fillRect(0, 0, width, height)
 
-    // oscilloscope(height, width, context, rgb);
-    spectro(canvas, height, width, context, rgb);
+    oscilloscope(height, width, context, rgb, thickness);
+    // spectro(canvas, height, width, context, rgb);
+    // bars(height, width, context, rgb);
   }
 
-  const oscilloscope = (height, width, context, rgb) => {
+  const oscilloscope = (height, width, context, rgb, thickness) => {
     let x = 0;
     const sliceWidth = (width * 1.0) / audioData.length;
 
-    context.lineWidth = 2;
+    context.lineWidth = thickness;
     context.strokeStyle = rgb;
-
+    // var hot = chroma.scale(['#000000', 'red', '#ffffff']).gamma(1);
     context.beginPath();
     for (const item of audioData) {
+      // context.strokeStyle = hot(item).hex();
       const y = (item / 255.0) * height / 4;
       context.lineTo(x, y + height / 3);
       x += sliceWidth;
@@ -52,8 +56,7 @@ const AudioVisualiser = ({ audioData }) => {
   }
 
   const bars = (height, width, context, rgb) => {
-    console.log('x')
-    const capArray = capYPositionArray;
+    const capArray = capYPositionArray.current;
     var barWidth = 1
     var barHeight;
     var xx = 0;
@@ -61,12 +64,13 @@ const AudioVisualiser = ({ audioData }) => {
     var gap = 0
     var barNum = width / (barWidth + gap)
     var step = Math.pow(audioData.length, 1 / (barNum));
-    console.log(audioData)
+    // console.log(audioData)
 
     context.beginPath();
     for (var i = 0; i < barNum; i++) {
       context.strokeStyle = rgb;
       context.lineWidth = 1;
+
       //noscale
       // var value = baudioData[i] * height / 255.0
 
@@ -80,16 +84,14 @@ const AudioVisualiser = ({ audioData }) => {
       };
       if (value < capArray[i]) {
         capArray[i] = capArray[i] - 1
-
-        context.fillRect(i * (barWidth + gap) + gap, height - (capArray[i]) / 3, barWidth, capHeight);
-
+        // context.fillRect(i * (barWidth + gap) + gap, height - (capArray[i] / 3), barWidth, capHeight);
         //weirdeffect, line width must be 1
-        // context.lineTo(xx, height - (capYPositionArray[i])/3);
+        context.lineTo(xx, height - (capArray[i])/3);
       } else {
-        context.fillRect(i * (barWidth + gap) + gap, height - (value / 3) - 1, barWidth, capHeight);
+        // context.fillRect(i * (barWidth + gap) + gap, height - (value / 3) - 1, barWidth, capHeight);
 
         //weirdeffect
-        // context.lineTo(xx, height - value / 3);
+        context.lineTo(xx, height - value / 3);
 
         capArray[i] = value;
       };
@@ -98,16 +100,16 @@ const AudioVisualiser = ({ audioData }) => {
       // context.fillStyle = 'rgba(255,20,147,' + (value / 255.0 - 0.75)  + ')'
 
       //bars
-      context.fillStyle = rgb
-      context.fillRect(i * (barWidth + gap) + gap, height - value / 3, barWidth, value / 3);
+      // context.fillStyle = rgb
+      // context.fillRect(i * (barWidth + gap) + gap, height - value / 3, barWidth, value / 3);
 
       //doublebars
       // context.fillRect(i * (barWidth+gap)+gap, height / 2 - value/ 6, barWidth, value / 6);
       // context.fillRect(i * (barWidth+gap)+gap, height / 2, barWidth, value/ 6);
 
       //line
-      // context.lineTo(xx, height - value / 3);
-      // xx += barWidth + gap
+      context.lineTo(xx, height - value / 3);
+      xx += barWidth + gap
 
       //gram
       // context.fillRect(i * (barWidth+gap)+gap, height - 255, barWidth, height);
@@ -144,7 +146,7 @@ const AudioVisualiser = ({ audioData }) => {
   }
 
   return (
-    <canvas width={window.innerWidth / 2} height={window.innerHeight} ref={createCanvas} />
+    <canvas width={window.innerWidth / 2} height={window.innerHeight / 2} ref={createCanvas} />
   )
 }
 

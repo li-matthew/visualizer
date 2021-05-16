@@ -18,7 +18,7 @@ const AudioAnalyser = ({ stream }) => {
       console.log("init stream");
       analyser.current = audioContext.current.createAnalyser();
       analyser.current.fftSize = 4096;
-      analyser.current.smoothingTimeConstant = 0;
+      analyser.current.smoothingTimeConstant = 0.9;
       // filter = audioContext.createBiquadFilter()
       // filter.type = "lowpass"
       // filter.frequency.value = 10000;
@@ -43,21 +43,21 @@ const AudioAnalyser = ({ stream }) => {
   }, [stream]);
 
   useLayoutEffect(() => {
-    
+
     const tick = () => {
-      var audioData = new Uint8Array(analyser.current.fftSize);
-      // analyser.current.getByteTimeDomainData(audioData);
-      analyser.current.getByteFrequencyData(audioData);
-      setAudioData(audioData)
-      // console.log('tick');
-      // var oAudioData = new Uint8Array(analyser.current.fftSize);
-      // var bAudioData = new Uint8Array(analyser.current.fftSize);
-      // analyser.current.getByteTimeDomainData(oAudioData);
-      // analyser.current.getByteFrequencyData(bAudioData);
-      // console.log(dataArray.current)
-      // setOAudioData(oAudioData);
-      // setBAudioData(bAudioData);
-      rafId.current = requestAnimationFrame(tick);
+        var audioData = new Uint8Array(analyser.current.fftSize);
+        analyser.current.getByteTimeDomainData(audioData);
+        // analyser.current.getByteFrequencyData(audioData);
+        setAudioData(audioData)
+        // console.log('tick');
+        // var oAudioData = new Uint8Array(analyser.current.fftSize);
+        // var bAudioData = new Uint8Array(analyser.current.fftSize);
+        // analyser.current.getByteTimeDomainData(oAudioData);
+        // analyser.current.getByteFrequencyData(bAudioData);
+        // console.log(dataArray.current)
+        // setOAudioData(oAudioData);
+        // setBAudioData(bAudioData);
+        rafId.current = requestAnimationFrame(tick);
     };
     rafId.current = requestAnimationFrame(tick);
   }, [])

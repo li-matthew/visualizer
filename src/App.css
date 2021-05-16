@@ -40,3 +40,47 @@
 .App {
   text-align: center
 }
+
+.title {
+  color: white;
+}
+
+.ControlBar {
+  width: 50%;
+  margin: auto;
+  padding: 20px;
+}
+
+.controlTitle {
+  color: white;
+}
+
+#butt {
+  text-transform: none;
+}
+
+#red {
+  float: left;
+  width: 30%;
+  color: rgb(255, 0, 0);
+}
+
+#green {
+  float: center;
+  width: 30%;
+  color: rgb(0, 255, 0);
+}
+
+#blue {
+  float: right;
+  width: 30%;
+  color: rgb(0, 0, 255);
+}
+
+/* #thickness {
+  color: rgb(255,20,147);
+}
+
+#fade {
+  color: rgb(255,20,147);
+} */
