@@ -1,44 +1,14 @@
-/* .App {
-  text-align: center;
+@font-face {
+  font-family: 'Trip';
+  font-weight: normal;
+  font-style: normal;
+  src: url('./fonts/Art-nuvo.otf');
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 
 .App {
-  text-align: center
+  text-align: center;
+  font-family: 'Trip';
+  font-size: 20px;
 }
 
 .title {
@@ -51,36 +21,39 @@
   padding: 20px;
 }
 
+.Header {
+  padding-bottom: 20px;
+}
+
 .controlTitle {
   color: white;
 }
 
 #butt {
   text-transform: none;
+  font-family: 'Trip';
+  font-size: 20px;
 }
 
 #red {
-  float: left;
-  width: 30%;
   color: rgb(255, 0, 0);
 }
 
 #green {
-  float: center;
-  width: 30%;
   color: rgb(0, 255, 0);
 }
 
 #blue {
-  float: right;
-  width: 30%;
   color: rgb(0, 0, 255);
 }
 
-/* #thickness {
-  color: rgb(255,20,147);
+.controlCard {
+  overflow: hidden;
+  padding: 20px;
+  padding-top: 0px;
+  border-color: #FF01D7;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  margin: 5px;
 }
-
-#fade {
-  color: rgb(255,20,147);
-} */

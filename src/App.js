@@ -8,6 +8,18 @@ import Login from './Login';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Info from './Info';
 import './App.css';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#FF01D7',
+    },
+    secondary: {
+      main: '#00EDF5',
+    },
+  },
+});
 
 // const spotify = new SpotifyWebApi({
 //   clientId: '6d21bc23eaeb4573a2b668d8239e57ea',
@@ -50,14 +62,16 @@ const App = (props) => {
   // }, [])
 
   return (
-    <div className="App">
-    <Typography class='title' variant='h1'>sandwich time</Typography>
-      {/* {token ? <a>LOGGED IN</a> : <Login />}
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Typography class='title' variant='h1'>sandwich time</Typography>
+        {/* {token ? <a>LOGGED IN</a> : <Login />}
       <Info spotify={spotify} /> */}
-      <Header controlAudio={{ audio, toggleAudio }} />
-      {audio ? <AudioAnalyser stream={audio} /> : ''}
-      <ControlBar />
-    </div>
+        <Header controlAudio={{ audio, toggleAudio }} />
+        {audio ? <AudioAnalyser stream={audio} /> : ''}
+        <ControlBar />
+      </div>
+    </ThemeProvider>
   );
 }
 
