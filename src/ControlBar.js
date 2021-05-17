@@ -42,7 +42,7 @@ const ControlBar = () => {
                 min={0}
                 max={255}
                 step={1}
-                defaultValue={255}
+                defaultValue={1}
                 valueLabelDisplay='auto'
                 color='secondary'
                 onChange={(event, value) => {
@@ -55,7 +55,7 @@ const ControlBar = () => {
                 min={0}
                 max={255}
                 step={1}
-                defaultValue={20}
+                defaultValue={255}
                 valueLabelDisplay='auto'
                 color='secondary'
                 onChange={(event, value) => {
@@ -68,7 +68,7 @@ const ControlBar = () => {
                 min={0}
                 max={255}
                 step={1}
-                defaultValue={147}
+                defaultValue={79}
                 valueLabelDisplay='auto'
                 color='secondary'
                 onChange={(event, value) => {

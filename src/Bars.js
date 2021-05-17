@@ -169,7 +169,7 @@ const Bars = () => {
                             min={0}
                             max={255}
                             step={1}
-                            defaultValue={1}
+                            defaultValue={252}
                             valueLabelDisplay='auto'
                             color='secondary'
                             onChange={(event, value) => {
@@ -182,7 +182,7 @@ const Bars = () => {
                             min={0}
                             max={255}
                             step={1}
-                            defaultValue={255}
+                            defaultValue={0}
                             valueLabelDisplay='auto'
                             color='secondary'
                             onChange={(event, value) => {
@@ -195,7 +195,7 @@ const Bars = () => {
                             min={0}
                             max={255}
                             step={1}
-                            defaultValue={79}
+                            defaultValue={25}
                             valueLabelDisplay='auto'
                             color='secondary'
                             onChange={(event, value) => {
