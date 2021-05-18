@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider, Typography, Grid, Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
+import { Slider, Typography, Grid, AppBar, Tabs, Tab } from '@material-ui/core'
 import Oscilloscope from './Oscilloscope'
 import { thickness } from './Oscilloscope'
 import Spectrogram from './Spectrogram'
@@ -7,35 +7,91 @@ import { gamma } from './Spectrogram'
 import Bars from './Bars'
 import { barWidth, gap, log, caps, opacity, lineFill, capColor, capSpeed, type } from './Bars'
 
-var fade = 0;
+var fade = 0.8;
 var color = [1, 255, 79];
-var select = 'left'
 var width = 50;
 var height = 30;
+var smoothing = 0.85;
+var fft = 4096;
+var tab = 'bars'
 
-const ControlBar = () => {
+const fftSizes = [
+  { value: 64 },
+  { value: 128 },
+  { value: 256 },
+  { value: 512 },
+  { value: 1024 },
+  { value: 2048 },
+  { value: 4096 }
+];
+
+const ControlBar = ({ controlAudio }) => {
+  const [currentTab, setCurrentTab] = React.useState('bars');
+  const [fadeDisable, setFadeDisable] = React.useState(false);
+  const [smoothingDisable, setSmoothingDisable] = React.useState(false);
+  // const reset = () => {
+  //   controlAudio.toggleAudio();
+  //   controlAudio.toggleAudio();
+  // }
+
+  const currentControls = () => {
+    switch (currentTab) {
+      case 'oscilloscope':
+        return <Oscilloscope />;
+      case 'bars':
+        return <Bars />;
+      case 'spectrogram':
+        return <Spectrogram />;
+    }
+  }
+
   return (
-    <div class='ControlBar'>
-      {/* <Oscilloscope /> */}
-      {/* <Spectrogram /> */}
-      <div class='controlCard'>
-        <Bars />
+    <div className='ControlBar'>
+      <Tabs
+        variant='fullWidth'
+        textColor='primary'
+        indicatorColor='primary'
+        value={currentTab}
+        onChange={(event, value) => {
+          setCurrentTab(value);
+          tab = value;
+          if (value === 'spectrogram') {
+            setFadeDisable(true)
+            setSmoothingDisable(false)
+          } else if (value === 'oscilloscope') {
+            setFadeDisable(false)
+            setSmoothingDisable(true)
+          } else {
+            setFadeDisable(false)
+            setSmoothingDisable(false)
+          }
+          if (controlAudio.audio) {
+                    controlAudio.toggleAudio();
+                  }
+        }}>
+        <Tab value="oscilloscope" label="oscilloscope" />
+        <Tab value="bars" label="bars" />
+        <Tab value="spectrogram" label="spectrogram" />
+      </Tabs>
+      <div className='controlCard'>
+        {currentControls()}
       </div>
-      <div class='controlCard'>
-        <Typography class="controlTitle" gutterBottom color='inherit'>fade</Typography>
+      <div className='controlCard'>
+        <Typography className="controlTitle" gutterBottom>fade</Typography>
         <Slider id='fade'
           min={0}
           max={1}
           step={0.01}
-          defaultValue={0}
+          disabled={fadeDisable}
+          defaultValue={0.8}
           valueLabelDisplay='auto'
           color='secondary'
           onChange={(event, value) => {
             fade = value;
           }}
         />
-        <Typography class="controlTitle" gutterBottom color='inherit'>color</Typography>
-        <div class='color'>
+        <Typography className="controlTitle" gutterBottom>color</Typography>
+        <div className='color'>
           <Grid container spacing={3}>
             <Grid item xs>
               <Slider id='red'
@@ -78,13 +134,12 @@ const ControlBar = () => {
             </Grid>
           </Grid>
         </div>
-        <div class='dimensions'>
+        <div className='dimensions'>
           <Grid container spacing={2}>
             <Grid item xs>
-              <Typography class="controlTitle" id='width' gutterBottom color='inherit'>width</Typography>
-
+              <Typography className="controlTitle" id='width' gutterBottom>width</Typography>
               <Slider id='width'
-                min={0}
+                min={1}
                 max={100}
                 step={0.1}
                 defaultValue={50}
@@ -96,9 +151,9 @@ const ControlBar = () => {
               />
             </Grid>
             <Grid item xs>
-              <Typography class="controlTitle" id='height' gutterBottom color='inherit'>height</Typography>
+              <Typography className="controlTitle" id='height' gutterBottom>height</Typography>
               <Slider id='height'
-                min={0}
+                min={1}
                 max={100}
                 step={0.1}
                 defaultValue={30}
@@ -111,6 +166,48 @@ const ControlBar = () => {
             </Grid>
           </Grid>
         </div>
+        <Typography className="controlTitle" gutterBottom>(will reset)</Typography>
+        <div className='analyser'>
+          <Grid container spacing={2}>
+            <Grid item xs>
+              <Typography className="controlTitle" id='smoothing' gutterBottom>smoothing</Typography>
+              <Slider id='smoothing'
+                min={0}
+                max={1}
+                step={0.01}
+                disabled={smoothingDisable}
+                defaultValue={0.85}
+                valueLabelDisplay='auto'
+                color='secondary'
+                onChangeCommitted={(event, value) => {
+                  smoothing = value;
+                  if (controlAudio.audio) {
+                    controlAudio.toggleAudio();
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item xs>
+              <Typography className="controlTitle" id='fft' gutterBottom>fft</Typography>
+              <Slider id='fft'
+                min={0}
+                max={4096}
+                step={null}
+                defaultValue={4096}
+                aria-labelledby='discrete-slider-restrict'
+                marks={fftSizes}
+                valueLabelDisplay='auto'
+                color='secondary'
+                onChangeCommitted={(event, value) => {
+                  fft = value;
+                  if (controlAudio.audio) {
+                    controlAudio.toggleAudio();
+                  }
+                }}
+              />
+            </Grid>
+          </Grid>
+        </div>
       </div>
     </div>
   );
@@ -118,7 +215,7 @@ const ControlBar = () => {
 
 export {
   color, width, height, thickness, fade, gamma,
-  barWidth, gap, log, caps, opacity, lineFill, capColor, capSpeed, type
+  barWidth, gap, log, caps, opacity, lineFill, capColor, capSpeed, type, smoothing, fft, tab
 };
 
 export default ControlBar

@@ -5,8 +5,8 @@ var gamma = 1;
 
 const Spectrogram = () => {
     return (
-        <div>
-            <Typography class="controlTitle" gutterBottom color='inherit'>gamma</Typography>
+        <React.Fragment>
+            <Typography className="controlTitle" gutterBottom>gamma</Typography>
             <Slider id='thickness'
                 min={0}
                 max={5}
@@ -18,7 +18,7 @@ const Spectrogram = () => {
                     gamma = value;
                 }}
             />
-        </div>
+        </React.Fragment>
     )
 }
 

@@ -14,11 +14,46 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#FF01D7',
+      contrastText: '#FFEB00'
     },
     secondary: {
       main: '#00EDF5',
-    },
+    }
   },
+  typography: {
+    fontFamily: 'Trip',
+    body1: {
+      color: "#FFEB00"
+    },
+    h3: {
+      padding: 10
+    }
+  },
+  overrides: {
+    MuiTab: {
+      textColorPrimary: {
+        color: '#FFEB00'
+      },
+      root: {
+        fontSize: 18
+      }
+    },
+    MuiSwitch: {
+      switchBase: {
+        color: '#5600CC'
+      }
+    },
+    MuiRadio: {
+      root: {
+        color: '#5600CC'
+      }
+    },
+    MuiSlider: {
+      mark: {
+        color: '#FFEB00'
+      }
+    }
+  }
 });
 
 // const spotify = new SpotifyWebApi({
@@ -64,12 +99,12 @@ const App = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
-        <Typography class='title' variant='h1'>sandwich time</Typography>
+        <Typography className='title' variant='h3'>sandwich time</Typography>
         {/* {token ? <a>LOGGED IN</a> : <Login />}
       <Info spotify={spotify} /> */}
         <Header controlAudio={{ audio, toggleAudio }} />
         {audio ? <AudioAnalyser stream={audio} /> : ''}
-        <ControlBar />
+        <ControlBar controlAudio={{ audio, toggleAudio }} />
       </div>
     </ThemeProvider>
   );

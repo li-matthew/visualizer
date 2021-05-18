@@ -1,14 +1,19 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 // import { color } from './Info';
 import chroma from 'chroma-js'
 import {
   fade, color, width, height, thickness, gamma,
-  barWidth, gap, log, caps, opacity, capColor, capSpeed, type, lineFill
+  barWidth, gap, log, caps, opacity, capColor, capSpeed, type, lineFill, fft, tab
 } from './ControlBar'
 
 const AudioVisualiser = ({ audioData }) => {
   var createCanvas = React.createRef();
   var capYPositionArray = useRef([]);
+
+  var spectroScale = 1;
+  if (fft < 2048 && tab === 'spectrogram') {
+    spectroScale = 2048 / fft;
+  }
 
   useLayoutEffect(() => {
     if (audioData.length > 0) {
@@ -21,7 +26,6 @@ const AudioVisualiser = ({ audioData }) => {
     const height = canvas.height;
     const width = canvas.width;
     const context = canvas.getContext('2d');
-    console.log(type)
 
     var caprgb;
     if (caps) {
@@ -34,21 +38,28 @@ const AudioVisualiser = ({ audioData }) => {
       caprgb = caprgb.concat(")")
     }
 
-
     var rgb = 'rgb('
     rgb = rgb.concat(color[0])
-    for (var i = 1; i < 3; i++) {
+    for (var j = 1; j < 3; j++) {
       rgb = rgb.concat(", ")
-      rgb = rgb.concat(color[i])
+      rgb = rgb.concat(color[j])
     }
     rgb = rgb.concat(")")
-
-    context.fillStyle = 'rgba(51, 51, 51, ' + (1 - fade) + ')'
-    context.fillRect(0, 0, width, height)
-
-    // oscilloscope(height, width, context, rgb, thickness);
-    // spectro(canvas, height, width, context, rgb, gamma);
-    bars(height, width, context, rgb, barWidth, gap, log, caps, opacity, caprgb, capSpeed, type);
+    if (tab !== 'spectrogram') {
+      context.fillStyle = 'rgba(34, 34, 34, ' + (1 - fade) + ')'
+      context.fillRect(0, 0, width, height)
+    }
+    switch (tab) {
+      case 'oscilloscope':
+        oscilloscope(height, width, context, rgb, thickness);
+        break;
+      case 'bars':
+        bars(height, width, context, rgb, barWidth, gap, log, caps, opacity, caprgb, capSpeed, type);
+        break;
+      case 'spectrogram':
+        spectro(canvas, height, width, context, rgb, gamma);
+        break;
+    }
   }
 
   const oscilloscope = (height, width, context, rgb, thickness) => {
@@ -61,8 +72,8 @@ const AudioVisualiser = ({ audioData }) => {
     context.beginPath();
     for (const item of audioData) {
       // context.strokeStyle = hot(item).hex();
-      const y = (item / 255.0) * height / 4;
-      context.lineTo(x, y + height / 3);
+      const y = (item / 255.0) * height;
+      context.lineTo(x, y);
       x += sliceWidth;
     }
     context.stroke();
@@ -70,11 +81,10 @@ const AudioVisualiser = ({ audioData }) => {
 
   const bars = (height, width, context, rgb, barWidth, gap, log, caps, opacity, caprgb, capSpeed, type) => {
     const capArray = capYPositionArray.current;
-    var barWidth = barWidth;
-    var barHeight;
+    // var barWidth = barWidth;
     var xx = 0;
     var capHeight = 1;
-    var gap = gap;
+    // var gap = gap;
     var barNum = width / (barWidth + gap)
     var step = Math.pow(audioData.length, 1 / (barNum));
 
@@ -82,11 +92,11 @@ const AudioVisualiser = ({ audioData }) => {
     for (var i = 0; i < barNum; i++) {
       context.strokeStyle = rgb;
       context.lineWidth = 1;
-
+      var value;
       if (log) {
-        var value = audioData[Math.round(Math.pow(step, i))] * height / 255;
+        value = audioData[Math.round(Math.pow(step, i))] * height / 255;
       } else {
-        var value = audioData[i] * height / 255.0
+        value = audioData[i] * height / 255.0
       }
 
       // caps
@@ -112,21 +122,20 @@ const AudioVisualiser = ({ audioData }) => {
         };
       }
 
-
       //effect
       if (opacity) {
-        context.fillStyle = 'rgba' + rgb.substring(3, rgb.length - 1) + ',' + (value / 255.0) + ')';
+        context.fillStyle = 'rgba' + rgb.substring(3, rgb.length - 1) + ',' + (value / 255.0 - fade / 10) + ')';
       } else {
         context.fillStyle = rgb
       }
 
       //bars
-      if (type == 'doublebars') {
+      if (type === 'doublebars') {
         context.fillRect(i * (barWidth + gap) + gap, height / 2 - value / 2, barWidth, value / 2);
         context.fillRect(i * (barWidth + gap) + gap, height / 2, barWidth, value / 2);
-      } else if (type == 'bars') {
+      } else if (type === 'bars') {
         context.fillRect(i * (barWidth + gap) + gap, height - value, barWidth, value);
-      } else if (type == 'line') {
+      } else if (type === 'line') {
         context.lineTo(xx, height - value);
         xx += barWidth + gap
       }
@@ -157,7 +166,7 @@ const AudioVisualiser = ({ audioData }) => {
   }
 
   return (
-    <canvas width={window.innerWidth * width / 100.0} height={window.innerHeight * height / 100.0} ref={createCanvas} />
+    <canvas width={window.innerWidth * width / 100.0} height={window.innerHeight * (height / 100.0) / spectroScale} ref={createCanvas} />
   )
 }
 

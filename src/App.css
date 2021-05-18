@@ -5,6 +5,11 @@
   src: url('./fonts/Art-nuvo.otf');
 }
 
+:root {
+  --font: #FFEB00;
+  --border: #FF01D7;
+}
+
 .App {
   text-align: center;
   font-family: 'Trip';
@@ -12,7 +17,7 @@
 }
 
 .title {
-  color: white;
+  color: var(--font);
 }
 
 .ControlBar {
@@ -26,7 +31,7 @@
 }
 
 .controlTitle {
-  color: white;
+  color: var(--font);
 }
 
 #butt {
@@ -51,9 +56,9 @@
   overflow: hidden;
   padding: 20px;
   padding-top: 0px;
-  border-color: #FF01D7;
+  border-color: var(--border);
   border-width: 1px;
   border-style: solid;
   border-radius: 10px;
-  margin: 5px;
+  margin-top: 10px;
 }

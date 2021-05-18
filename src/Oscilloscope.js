@@ -5,8 +5,8 @@ var thickness = 1;
 
 const Oscilloscope = () => {
     return (
-        <div>
-            <Typography class="controlTitle" gutterBottom color='inherit'>thickness</Typography>
+        <React.Fragment>
+            <Typography className="controlTitle" gutterBottom>thickness</Typography>
             <Slider id='thickness'
                 min={0}
                 max={10}
@@ -18,8 +18,7 @@ const Oscilloscope = () => {
                     thickness = value;
                 }}
             />
-            
-        </div>
+        </React.Fragment>
     )
 }
 

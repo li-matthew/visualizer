@@ -13,7 +13,6 @@ var lineFill = false;
 var capColor = [252, 0, 25];
 var capSpeed = 1;
 var type = 'bars'
-// var lineThickness = 1;
 
 const Bars = () => {
     const [capDisable, setCapDisable] = React.useState(false)
@@ -21,16 +20,17 @@ const Bars = () => {
     const [lineFillDisable, setLineFillDisable] = React.useState(true)
 
     return (
-        <div class='bars'>
+        // <div className='bars'>
+        <React.Fragment>
             <RadioGroup row defaultValue='bars' onChange={(event, value) => {
                 type = value;
-                if (value == 'doublebars') {
+                if (value === 'doublebars') {
                     setCapDisable(true)
                     setOpacityDisable(false)
                     setLineFillDisable(true)
                     caps = false;
                     lineFill = false;
-                } else if (value == 'line') {
+                } else if (value === 'line') {
                     setCapDisable(true)
                     caps = false;
                     setOpacityDisable(true)
@@ -45,22 +45,22 @@ const Bars = () => {
             }}>
                 <Grid container spacing={3}>
                     <Grid item xs>
-                        <Typography class="controlTitle" id='barRadio' gutterBottom color='inherit'>bars</Typography>
+                        <Typography className="controlTitle" id='barRadio' gutterBottom>bars</Typography>
                         <FormControlLabel value="bars" control={<Radio />} labelPlacement='top' />
                     </Grid>
                     <Grid item xs>
-                        <Typography class="controlTitle" id='doubleBarRadio' gutterBottom color='inherit'>double bars</Typography>
+                        <Typography className="controlTitle" id='doubleBarRadio' gutterBottom>double bars</Typography>
                         <FormControlLabel value="doublebars" control={<Radio />} labelPlacement='top' />
                     </Grid>
                     <Grid item xs>
-                        <Typography class="controlTitle" id='lineRadio' gutterBottom color='inherit'>line</Typography>
+                        <Typography className="controlTitle" id='lineRadio' gutterBottom>line</Typography>
                         <FormControlLabel value="line" control={<Radio />} labelPlacement='top' />
                     </Grid>
                 </Grid>
             </RadioGroup>
             <Grid container spacing={4}>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='barWidth' gutterBottom color='inherit'>bar width</Typography>
+                    <Typography className="controlTitle" id='barWidth' gutterBottom>bar width</Typography>
                     <Slider id='barWidth'
                         min={1}
                         max={50}
@@ -74,7 +74,7 @@ const Bars = () => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='gap' gutterBottom color='inherit'>gap</Typography>
+                    <Typography className="controlTitle" id='gap' gutterBottom>gap</Typography>
                     <Slider id='gap'
                         min={0}
                         max={25}
@@ -88,7 +88,7 @@ const Bars = () => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='capSpeed' gutterBottom color='inherit'>cap speed</Typography>
+                    <Typography className="controlTitle" id='capSpeed' gutterBottom>cap speed</Typography>
                     <Slider id='capSpeed'
                         min={0.25}
                         max={1.25}
@@ -101,24 +101,10 @@ const Bars = () => {
                         }}
                     />
                 </Grid>
-                {/* <Grid item xs>
-                    <Typography class="controlTitle" id='lineThickness' gutterBottom color='inherit'>line thickness</Typography>
-                    <Slider id='lineThickness'
-                        min={0}
-                        max={10}
-                        step={0.1}
-                        defaultValue={1}
-                        valueLabelDisplay='auto'
-                        color='secondary'
-                        onChange={(event, value) => {
-                            lineThickness = value;
-                        }}
-                    />
-                </Grid> */}
             </Grid>
             <Grid container spacing={4}>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='log' gutterBottom color='inherit'>log</Typography>
+                    <Typography className="controlTitle" id='log' gutterBottom>log</Typography>
                     <Switch id='log'
                         defaultChecked={true}
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
@@ -128,7 +114,7 @@ const Bars = () => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='caps' gutterBottom color='inherit'>caps</Typography>
+                    <Typography className="controlTitle" id='caps' gutterBottom>caps</Typography>
                     <Switch id='caps'
                         defaultChecked={true}
                         disabled={capDisable}
@@ -139,7 +125,7 @@ const Bars = () => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='opacity' gutterBottom color='inherit'>opacity</Typography>
+                    <Typography className="controlTitle" id='opacity' gutterBottom>opacity</Typography>
                     <Switch id='opacity'
                         defaultChecked={false}
                         disabled={opacityDisable}
@@ -150,7 +136,7 @@ const Bars = () => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <Typography class="controlTitle" id='lineFill' gutterBottom color='inherit'>line fill</Typography>
+                    <Typography className="controlTitle" id='lineFill' gutterBottom>line fill</Typography>
                     <Switch id='lineFill'
                         defaultChecked={false}
                         disabled={lineFillDisable}
@@ -161,8 +147,8 @@ const Bars = () => {
                     />
                 </Grid>
             </Grid>
-            <Typography class="controlTitle" gutterBottom color='inherit'>cap color</Typography>
-            <div class='capColor'>
+            <Typography className="controlTitle" gutterBottom>cap color</Typography>
+            <div className='capColor'>
                 <Grid container spacing={3}>
                     <Grid item xs>
                         <Slider id='red'
@@ -205,7 +191,8 @@ const Bars = () => {
                     </Grid>
                 </Grid>
             </div>
-        </div>
+           </React.Fragment>
+        // </div>
     )
 }
 
