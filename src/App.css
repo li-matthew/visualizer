@@ -54,8 +54,7 @@
 
 .controlCard {
   overflow: hidden;
-  padding: 20px;
-  padding-top: 0px;
+  padding: 25px;
   border-color: var(--border);
   border-width: 1px;
   border-style: solid;
