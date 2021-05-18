@@ -45,15 +45,15 @@ const Bars = () => {
             }}>
                 <Grid container spacing={3}>
                     <Grid item xs>
-                        <Typography className="controlTitle" id='barRadio' gutterBottom>bars</Typography>
+                        <Typography className="controlTitle" id='barRadio'>bars</Typography>
                         <FormControlLabel value="bars" control={<Radio />} labelPlacement='top' />
                     </Grid>
                     <Grid item xs>
-                        <Typography className="controlTitle" id='doubleBarRadio' gutterBottom>double bars</Typography>
+                        <Typography className="controlTitle" id='doubleBarRadio'>double bars</Typography>
                         <FormControlLabel value="doublebars" control={<Radio />} labelPlacement='top' />
                     </Grid>
                     <Grid item xs>
-                        <Typography className="controlTitle" id='lineRadio' gutterBottom>line</Typography>
+                        <Typography className="controlTitle" id='lineRadio'>line</Typography>
                         <FormControlLabel value="line" control={<Radio />} labelPlacement='top' />
                     </Grid>
                 </Grid>
