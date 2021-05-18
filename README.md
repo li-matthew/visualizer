@@ -1,6 +1,6 @@
 # sandwich-time
 
-An app made with React.js to visualize audio data
+An app made with React.js and the Web Audio API to visualize audio data
 
 ## Screenshots
 ![Example](/public/screenshot.png)
