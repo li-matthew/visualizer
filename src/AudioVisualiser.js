@@ -124,7 +124,7 @@ const AudioVisualiser = ({ audioData }) => {
 
       //effect
       if (opacity) {
-        context.fillStyle = 'rgba' + rgb.substring(3, rgb.length - 1) + ',' + (value / 255.0 - fade / 10) + ')';
+        context.fillStyle = 'rgba' + rgb.substring(3, rgb.length - 1) + ',' + (value / 255.0 - fade / 7.5) + ')';
       } else {
         context.fillStyle = rgb
       }
