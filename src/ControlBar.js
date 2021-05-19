@@ -11,7 +11,7 @@ var fade = 0.8;
 var color = [1, 255, 79];
 var width = 50;
 var height = 30;
-var smoothing = 0.85;
+var smoothing = 0.9;
 var fft = 4096;
 var tab = 'bars'
 var spectroScale = 1;
@@ -187,7 +187,7 @@ const ControlBar = ({ controlAudio }) => {
                 max={1}
                 step={0.01}
                 disabled={smoothingDisable}
-                defaultValue={0.85}
+                defaultValue={0.9}
                 valueLabelDisplay='auto'
                 color='secondary'
                 onChangeCommitted={(event, value) => {

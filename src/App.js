@@ -9,7 +9,6 @@ import SpotifyWebApi from 'spotify-web-api-js';
 import Info from './Info';
 import './App.css';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core'
-import { motion } from 'framer-motion'
 
 const theme = createMuiTheme({
   palette: {
