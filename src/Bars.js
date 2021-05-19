@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core'
 
 var barWidth = 1;
-var gap = 10;
+var gap = 1;
 var log = true;
 var caps = true;
 var opacity = false;
@@ -79,7 +79,7 @@ const Bars = () => {
                         min={0}
                         max={25}
                         step={1}
-                        defaultValue={10}
+                        defaultValue={1}
                         valueLabelDisplay='auto'
                         color='secondary'
                         onChange={(event, value) => {
