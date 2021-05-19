@@ -24,7 +24,6 @@ const AudioVisualiser = ({ audioData }) => {
     const canvasHeight = canvas.height;
     const canvasWidth = canvas.width;
     const context = canvas.getContext('2d');
-    console.log(spectroScale)
     // if (fft < 2048 && tab === 'spectrogram') {
     //   spectroScale = 2048 / fft;
     // }
