@@ -61,3 +61,33 @@
   border-radius: 10px;
   margin-top: 10px;
 }
+
+.enterCanvas-enter {
+  opacity: 0;
+}
+.enterCanvas-active {
+  opacity: 1;
+  transition: opacity 3000ms;
+}
+.enterCanvas-exit {
+  opacity: 1;
+}
+.enterCanvas-exit-active {
+  opacity: 0;
+  transition: opacity 3000ms;
+}
+
+.page-enter {
+  transform: translate(100%);
+}
+.page-enter.page-enter-active {
+  transform: translate(0%);
+  transition: transform 1000ms ease-in-out;
+}
+.page-leave {
+  transform: translate(0%);
+}
+.page-leave.page-leave-active {
+  transform: translate(-100%);
+  transition: transform 1000ms ease-in-out;
+}

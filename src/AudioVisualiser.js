@@ -1,20 +1,18 @@
 import React, { useLayoutEffect, useRef } from 'react';
 // import { color } from './Info';
 import chroma from 'chroma-js'
+
 import {
   fade, color, width, height, thickness, gamma,
-  barWidth, gap, log, caps, opacity, capColor, capSpeed, type, lineFill, fft, tab
+  barWidth, gap, log, caps, opacity, capColor, capSpeed, type, lineFill, fft, tab, spectroScale
 } from './ControlBar'
+
+// var spectroScale = 1;
+    
 
 const AudioVisualiser = ({ audioData }) => {
   var createCanvas = React.createRef();
   var capYPositionArray = useRef([]);
-
-  var spectroScale = 1;
-  if (fft < 2048 && tab === 'spectrogram') {
-    spectroScale = 2048 / fft;
-  }
-
   useLayoutEffect(() => {
     if (audioData.length > 0) {
       draw();
@@ -23,9 +21,13 @@ const AudioVisualiser = ({ audioData }) => {
 
   const draw = () => {
     const canvas = createCanvas.current;
-    const height = canvas.height;
-    const width = canvas.width;
+    const canvasHeight = canvas.height;
+    const canvasWidth = canvas.width;
     const context = canvas.getContext('2d');
+    console.log(spectroScale)
+    // if (fft < 2048 && tab === 'spectrogram') {
+    //   spectroScale = 2048 / fft;
+    // }
 
     var caprgb;
     if (caps) {
@@ -47,17 +49,17 @@ const AudioVisualiser = ({ audioData }) => {
     rgb = rgb.concat(")")
     if (tab !== 'spectrogram') {
       context.fillStyle = 'rgba(34, 34, 34, ' + (1 - fade) + ')'
-      context.fillRect(0, 0, width, height)
+      context.fillRect(0, 0, canvasWidth, canvasHeight)
     }
     switch (tab) {
       case 'oscilloscope':
-        oscilloscope(height, width, context, rgb, thickness);
+        oscilloscope(canvasHeight, canvasWidth, context, rgb, thickness);
         break;
       case 'bars':
-        bars(height, width, context, rgb, barWidth, gap, log, caps, opacity, caprgb, capSpeed, type);
+        bars(canvasHeight, canvasWidth, context, rgb, barWidth, gap, log, caps, opacity, caprgb, capSpeed, type);
         break;
       case 'spectrogram':
-        spectro(canvas, height, width, context, rgb, gamma);
+        spectro(canvas, canvasHeight, canvasWidth, context, rgb, gamma);
         break;
     }
   }

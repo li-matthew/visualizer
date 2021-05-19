@@ -4,7 +4,7 @@ import { smoothing, fft, tab } from './ControlBar';
 
 const AudioAnalyser = ({ stream }) => {
   const [audioData, setAudioData] = React.useState(new Uint8Array(0));
-
+  const [test, setTest] = React.useState(false)
   var audioContext = useRef(new AudioContext());
   var analyser = useRef();
   var source = useRef();
@@ -45,8 +45,9 @@ const AudioAnalyser = ({ stream }) => {
     };
     rafId.current = requestAnimationFrame(tick);
   }, [])
+
   return (
-    <React.Fragment>
+    <React.Fragment>  
       <AudioVisualiser audioData={audioData} />
     </React.Fragment>
   );

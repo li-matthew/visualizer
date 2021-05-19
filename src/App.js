@@ -8,7 +8,8 @@ import Login from './Login';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Info from './Info';
 import './App.css';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import {createMuiTheme, ThemeProvider} from '@material-ui/core'
+import { motion } from 'framer-motion'
 
 const theme = createMuiTheme({
   palette: {
@@ -64,7 +65,6 @@ const theme = createMuiTheme({
 const App = (props) => {
   const [audio, setAudio] = React.useState(null);
   // const [token, setToken] = React.useState();
-
   const getAudio = async () => {
     const audio = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -103,7 +103,7 @@ const App = (props) => {
         {/* {token ? <a>LOGGED IN</a> : <Login />}
       <Info spotify={spotify} /> */}
         <Header controlAudio={{ audio, toggleAudio }} />
-        {audio ? <AudioAnalyser stream={audio} /> : ''}
+          {audio ? <AudioAnalyser stream={audio} /> : ''}
         <ControlBar controlAudio={{ audio, toggleAudio }} />
       </div>
     </ThemeProvider>

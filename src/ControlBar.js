@@ -14,6 +14,8 @@ var height = 30;
 var smoothing = 0.85;
 var fft = 4096;
 var tab = 'bars'
+var spectroScale = 1;
+// var currentHeight = window.innerHeight * (height / 100.0) / spectroScale;
 
 const fftSizes = [
   { value: 64 },
@@ -58,16 +60,23 @@ const ControlBar = ({ controlAudio }) => {
           if (value === 'spectrogram') {
             setFadeDisable(true)
             setSmoothingDisable(false)
+            if (fft < 2048) {
+              spectroScale = 2048 / fft;
+            } else {
+              spectroScale = 1;
+            }
           } else if (value === 'oscilloscope') {
             setFadeDisable(false)
             setSmoothingDisable(true)
+            spectroScale = 1;
           } else {
             setFadeDisable(false)
             setSmoothingDisable(false)
+            spectroScale = 1;
           }
           if (controlAudio.audio) {
-                    controlAudio.toggleAudio();
-                  }
+            controlAudio.toggleAudio();
+          }
         }}>
         <Tab value="oscilloscope" label="oscilloscope" />
         <Tab value="bars" label="bars" />
@@ -161,6 +170,8 @@ const ControlBar = ({ controlAudio }) => {
                 color='secondary'
                 onChange={(event, value) => {
                   height = value;
+                  // currentHeight = window.innerHeight * (value / 100.0) / spectroScale;
+                  // console.log(currentHeight)
                 }}
               />
             </Grid>
@@ -200,6 +211,14 @@ const ControlBar = ({ controlAudio }) => {
                 color='secondary'
                 onChangeCommitted={(event, value) => {
                   fft = value;
+                  if (value < 2048 && tab === 'spectrogram') {
+                    spectroScale = 2048 / value;
+                    // currentHeight = window.innerHeight * (height / 100.0) / spectroScale;
+                    // console.log('x')
+                  } else {
+                    spectroScale = 1;
+                    // currentHeight = window.innerHeight * (height / 100.0) / spectroScale;
+                  }
                   if (controlAudio.audio) {
                     controlAudio.toggleAudio();
                   }
@@ -215,7 +234,9 @@ const ControlBar = ({ controlAudio }) => {
 
 export {
   color, width, height, thickness, fade, gamma,
-  barWidth, gap, log, caps, opacity, lineFill, capColor, capSpeed, type, smoothing, fft, tab
+  barWidth, gap, log, caps, opacity, lineFill, capColor, capSpeed, type, smoothing, fft, tab, spectroScale
 };
+
+// export { currentHeight }
 
 export default ControlBar
